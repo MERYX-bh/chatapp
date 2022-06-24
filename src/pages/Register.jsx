@@ -23,54 +23,67 @@ function Register() {
       password: "",
       confirmPassword: "",
     });
-
-
-    //Fonction de validation des données entrées dans les inputs
-    const handleValidation = () => {
-        const { password, confirmPassword, username, email } = values;
-        if (password !== confirmPassword) {
-          toast.error(
-            "Password and confirm password should be same.",
-            toastOptions
-          );
-          return false;
-        } else if (username.length < 3) {
-          toast.error(
-            "Username should be greater than 3 characters.",
-            toastOptions
-          );
-          return false;
-        } else if (password.length < 8) {
-          toast.error(
-            "Password should be equal or greater than 8 characters.",
-            toastOptions
-          );
-          return false;
-        } else if (email === "") {
-          toast.error("Email is required.", toastOptions);
-          return false;
-        }
-    
-        return true;
-      };
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        if(handleValidation()){
-            const { password, confirmPassword, username, email } = values;
-            //ici C'EST L'INTEGRATIOOOOONNNNNNNN
-            const {data} = await axios.post(registerRoute,{
-                username,
-                email,
-                password
-            });
-        };
-    };
-
+  
+    useEffect(() => {
+      if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+        navigate("/");
+      }
+    }, []);
+  
     const handleChange = (event) => {
-        setValues({...values, [event.target.name]:event.target.value});
+      setValues({ ...values, [event.target.name]: event.target.value });
     };
-
+  
+    const handleValidation = () => {
+      const { password, confirmPassword, username, email } = values;
+      if (password !== confirmPassword) {
+        toast.error(
+          "Password and confirm password should be same.",
+          toastOptions
+        );
+        return false;
+      } else if (username.length < 3) {
+        toast.error(
+          "Username should be greater than 3 characters.",
+          toastOptions
+        );
+        return false;
+      } else if (password.length < 8) {
+        toast.error(
+          "Password should be equal or greater than 8 characters.",
+          toastOptions
+        );
+        return false;
+      } else if (email === "") {
+        toast.error("Email is required.", toastOptions);
+        return false;
+      }
+  
+      return true;
+    };
+  
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      if (handleValidation()) {
+        const { email, username, password } = values;
+        const { data } = await axios.post(registerRoute, {
+          username,
+          email,
+          password,
+        });
+  
+        if (data.status === false) {
+          toast.error(data.msg, toastOptions);
+        }
+        if (data.status === true) {
+          localStorage.setItem(
+            process.env.REACT_APP_LOCALHOST_KEY,
+            JSON.stringify(data.user)
+          );
+          navigate("/");
+        }
+      }
+    };
 
   return (
     <>
