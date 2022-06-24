@@ -1,12 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import styled from "styled-components";
 
 function Chat() {
   return (
-    <div>Chat
-    <Link to="/register">meriem</Link>
-    </div>
+    <>
+    <Container>
+      
+    </Container>
+    </>
   )
 }
 
 export default Chat
+
+const Container = styled.div``

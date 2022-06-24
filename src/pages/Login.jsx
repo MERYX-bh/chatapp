@@ -22,12 +22,12 @@ function Login() {
       password: "",
     });
 
-    
-    useEffect(() => {
-      if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-        navigate("/");
-      }
-    }, []);
+
+    // useEffect(() => {
+    //   if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+    //     navigate("/");
+    //   }
+    // }, []);
   
    
     const handleChange = (event) => {
